@@ -170,7 +170,7 @@ def update_pokemon_info(pokemon1, pokemon2):
 
 
 if __name__ == '__main__':
-    app.run_server(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
+    app.run_server(debug=True)
 
 
 # In[ ]:
