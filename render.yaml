@@ -1,0 +1,5 @@
+- name: Install Dependencies
+  script: pip install -r requirements.txt
+
+- name: Run App
+  script: python Dash.py
