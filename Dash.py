@@ -18,7 +18,7 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-
+import requests
 
 import dash
 
