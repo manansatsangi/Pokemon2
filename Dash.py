@@ -163,18 +163,18 @@ def update_pokemon_info(pokemon1, pokemon2):
     pokemon1_data = df_pokemon[df_pokemon['name'] == pokemon1].iloc[0]
     pokemon2_data = df_pokemon[df_pokemon['name'] == pokemon2].iloc[0]
 
-        # Check if pokemon1 is effective against pokemon2
-    is_pokemon1_effective = any(type_ in pokemon1_data['Effective_against'] for type_ in [pokemon2_data['type_1'], pokemon2_data['type_2']])
+           # Check if pokemon1 is effective against pokemon2
+    is_pokemon1_weak = any(type_ in pokemon1_data['Weak_against'] for type_ in [pokemon2_data['type_1'], pokemon2_data['type_2']])
     
     # Check if pokemon2 is effective against pokemon1
-    is_pokemon2_effective = any(type_ in pokemon2_data['Effective_against'] for type_ in [pokemon1_data['type_1'], pokemon1_data['type_2']])
+    is_pokemon2_weak = any(type_ in pokemon2_data['Weak_against'] for type_ in [pokemon1_data['type_1'], pokemon1_data['type_2']])
     
 
     # Determine the winner
-    if is_pokemon1_effective and not is_pokemon2_effective:
-        winner = pokemon1
-    elif is_pokemon2_effective and not is_pokemon1_effective:
+    if is_pokemon1_weak and not is_pokemon2_weak:
         winner = pokemon2
+    elif is_pokemon2_weak and not is_pokemon1_weak:
+        winner = pokemon1
     else:
         winner = "No one"  # If both are effective against each other
 
