@@ -121,6 +121,9 @@ df_pokemon = df_poke.copy()  # Replace with your Pokemon data
 # Load the list of Pokemon names
 pokemon_names = df_pokemon['name'].tolist()
 
+excluded_words = ['Mega', 'Alolan', 'Partner', 'Galarian']
+pokemon_names = [name for name in pokemon_names if not any(word in name for word in excluded_words)]
+
 # Define the layout of the dashboard
 app.layout = html.Div([
     html.H1("Pokemon Versus Mode"),
