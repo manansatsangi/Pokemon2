@@ -7,4 +7,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . /app/
 
-CMD ["gunicorn", "Dash:server", "--bind", "0.0.0.0:$PORT"]
+CMD ["gunicorn", "app:server", "--bind", "0.0.0.0:$PORT"]  # Change "Dash" to "app"
