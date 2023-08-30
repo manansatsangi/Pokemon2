@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[13]:
-
-
 import pandas as pd
 
 import numpy as np
@@ -60,6 +54,51 @@ df_poke['ability_1'].fillna('Unknown', inplace = True)
 df_poke['growth_rate'].fillna('Unknown', inplace = True)
 df_poke['weight_kg'].fillna(0, inplace = True)
 df_poke['egg_cycles'].fillna(0, inplace = True)
+
+
+# Create empty lists to store weak against and effective against types
+weak_against = []
+effective_against = []
+
+attrib = ['against_normal',
+             'against_fire',
+             'against_water',
+             'against_electric',
+             'against_grass',
+             'against_ice',
+             'against_fight',
+             'against_poison',
+             'against_ground',
+             'against_flying',
+             'against_psychic',
+             'against_bug',
+             'against_rock',
+             'against_ghost',
+             'against_dragon',
+             'against_dark',
+             'against_steel',
+             'against_fairy']
+
+# Iterate through each row in the DataFrame
+for index, row in df_poke.iterrows():
+    # Reset lists for each Pokemon
+    weak_against = []
+    effective_against = []
+    
+    # Iterate through the attributes
+    for att in attrib:
+        # Get the value of the current attribute
+        value = row[att]
+        
+        # Check if the Pokemon is weak or effective against this type
+        if value < 1:
+            effective_against.append(att[8:].replace('_', ' ').capitalize())  # Removing 'against_' and formatting
+        elif value > 1:
+            weak_against.append(att[8:].replace('_', ' ').capitalize())  # Removing 'against_' and formatting
+    
+    # Update the DataFrame with the lists of weak and effective against types
+    df_poke.at[index, 'Effective_against'] = ', '.join(effective_against)
+    df_poke.at[index, 'Weak_against'] = ', '.join(weak_against)
 
 
 import dash
@@ -128,6 +167,8 @@ def update_pokemon_info(pokemon1, pokemon2):
         html.Table([
             html.Tr([html.Th("Type 1"), html.Td(pokemon1_data['type_1'])]),
             html.Tr([html.Th("Type 2"), html.Td(pokemon1_data['type_2'])]),
+            html.Tr([html.Th("Effective against"), html.Td(pokemon1_data['Effective_against'])]),
+            html.Tr([html.Th("Weak against"), html.Td(pokemon1_data['Weak_against'])]),
         ]),
     ], className='pokemon-info')
 
@@ -137,8 +178,11 @@ def update_pokemon_info(pokemon1, pokemon2):
         html.Table([
             html.Tr([html.Th("Type 1"), html.Td(pokemon2_data['type_1'])]),
             html.Tr([html.Th("Type 2"), html.Td(pokemon2_data['type_2'])]),
+            html.Tr([html.Th("Effective against"), html.Td(pokemon2_data['Effective_against'])]),
+            html.Tr([html.Th("Weak against"), html.Td(pokemon2_data['Weak_against'])]),
         ]),
     ], className='pokemon-info')
+    
 
     # Create a grouped horizontal bar plot
     attributes = ['attack', 'sp_attack', 'defense', 'sp_defense', 'speed']
@@ -171,10 +215,3 @@ def update_pokemon_info(pokemon1, pokemon2):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-
-
-# In[ ]:
-
-
-
-
