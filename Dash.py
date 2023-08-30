@@ -163,6 +163,29 @@ def update_pokemon_info(pokemon1, pokemon2):
     pokemon1_data = df_pokemon[df_pokemon['name'] == pokemon1].iloc[0]
     pokemon2_data = df_pokemon[df_pokemon['name'] == pokemon2].iloc[0]
 
+        # Check if pokemon1 is effective against pokemon2
+    is_pokemon1_effective = any(type_ in pokemon1_data['Effective_against'] for type_ in [pokemon2_data['type_1'], pokemon2_data['type_2']])
+    
+    # Check if pokemon2 is effective against pokemon1
+    is_pokemon2_effective = any(type_ in pokemon2_data['Effective_against'] for type_ in [pokemon1_data['type_1'], pokemon1_data['type_2']])
+    
+
+    # Determine the winner
+    if is_pokemon1_effective and not is_pokemon2_effective:
+        winner = pokemon1
+    elif is_pokemon2_effective and not is_pokemon1_effective:
+        winner = pokemon2
+    else:
+        winner = "No one"  # If both are effective against each other
+
+        
+        # Create div elements for displaying the winner
+    winner_div = html.Div([
+        html.H2("Winner:", style={'color': 'green'}),
+        html.H1(winner, style={'font-size': '40px'}),
+    ], className='winner-info')
+    
+    
     # Create div elements for displaying Pokémon details
     pokemon1_details = html.Div([
         html.H2(pokemon1),
@@ -203,8 +226,10 @@ def update_pokemon_info(pokemon1, pokemon2):
     # Create div elements for displaying information
     info_div = html.Div([
         html.Div([
+            
             pokemon1_details,
             pokemon2_details,
+            winner_div,
         ], className='pokemon-details'),
 
         bar_plot_div,
@@ -213,6 +238,12 @@ def update_pokemon_info(pokemon1, pokemon2):
     return info_div
 
 # ... (remaining parts of the code)
+
+
+
+if __name__ == '__main__':
+    app.run_server(debug=True)
+
 
 
 
