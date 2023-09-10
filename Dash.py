@@ -38,6 +38,7 @@ csv_url = "https://raw.githubusercontent.com/manansatsangi/Pokemon/master/pokede
 
 df_pokemon = pd.read_csv(csv_url)
 
+df_pokemon.rename(columns={'against_fight': 'against_fighting'}, inplace=True)
 
 df_poke=df_pokemon.copy()
 df_poke['egg_type_2'].fillna('None', inplace = True)
@@ -66,7 +67,7 @@ attrib = ['against_normal',
              'against_electric',
              'against_grass',
              'against_ice',
-             'against_fight',
+             'against_fighting',
              'against_poison',
              'against_ground',
              'against_flying',
